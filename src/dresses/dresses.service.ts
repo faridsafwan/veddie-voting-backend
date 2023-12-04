@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Dress } from './entities/dress.entity';
 
 @Injectable()
@@ -62,7 +62,13 @@ export class DressesService {
   // }
 
   async findAll(): Promise<Dress[]> {
-    return await this.dressRepository.find();
+    const dresses = await this.dressRepository.find({
+      order: {
+        id: 'ASC', // or 'DESC' for descending order
+      },
+    });
+
+    return dresses;
   }
 
   async findOne(id): Promise<Dress | undefined> {
@@ -70,7 +76,9 @@ export class DressesService {
   }
 
   async voteForDress(id): Promise<Dress | null> {
-    const dress = await this.dressRepository.findOne(id);
+    const dress = await this.dressRepository.findOne({
+      where: { id },
+    });
 
     if (dress) {
       dress.votes += 1;

@@ -31,13 +31,13 @@ export class DressesController {
 
   @Post(':id/vote')
   async voteForDress(@Param('id') id: string) {
-    console.log(id, 'vote');
-
     // Your voting logic here
-    this.dressesService.voteForDress(Number(id));
+    const dress = await this.dressesService.voteForDress(Number(id));
 
     // Send real-time update
-    this.voteGateway.updateVotes(this.findAll());
+    if (dress) {
+      this.voteGateway.updateVotes(await this.dressesService.findAll());
+    }
 
     return { success: true };
   }
