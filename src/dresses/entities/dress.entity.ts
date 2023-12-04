@@ -14,6 +14,9 @@ export class Dress {
   wearer: string;
 
   @Column()
+  gender: string;
+
+  @Column()
   votes: number;
 
   @Column()
