@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import { Dress } from './entities/dress.entity';
 
 @Injectable()
 export class DressesService {
+  constructor(
+    @InjectRepository(Dress)
+    private readonly dressRepository: Repository<Dress>,
+  ) {}
   private dresses = [
     {
       id: 1,
@@ -54,20 +61,23 @@ export class DressesService {
   //   return 'This action adds a new dress';
   // }
 
-  findAll() {
-    return this.dresses;
+  async findAll(): Promise<Dress[]> {
+    return await this.dressRepository.find();
   }
 
-  findOne(id: number) {
-    return this.dresses.find((dress) => dress.id === id);
+  async findOne(id): Promise<Dress | undefined> {
+    return await this.dressRepository.findOne(id);
   }
 
-  voteForDress(id: number) {
-    const dress = this.dresses.find((dress) => dress.id === id);
+  async voteForDress(id): Promise<Dress | null> {
+    const dress = await this.dressRepository.findOne(id);
+
     if (dress) {
       dress.votes += 1;
+      await this.dressRepository.save(dress);
       return dress;
     }
+
     return null;
   }
 

@@ -31,6 +31,8 @@ export class DressesController {
 
   @Post(':id/vote')
   async voteForDress(@Param('id') id: string) {
+    console.log(id, 'vote');
+
     // Your voting logic here
     this.dressesService.voteForDress(Number(id));
 
