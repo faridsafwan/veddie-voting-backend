@@ -11,6 +11,6 @@ async function bootstrap() {
   // Attach WebSocket Adapter
   app.useWebSocketAdapter(new IoAdapter(app));
 
-  await app.listen(3030);
+  await app.listen(process.env.PORT || 3030);
 }
 bootstrap();
