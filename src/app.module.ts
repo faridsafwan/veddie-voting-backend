@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { DressesModule } from './dresses/dresses.module';
 import { VoteGateway } from './dresses/vote.gateway';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinnersModule } from './winners/winners.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       ssl: true, // Add this line
     }),
+    WinnersModule,
   ],
   controllers: [AppController],
   providers: [AppService, VoteGateway],
