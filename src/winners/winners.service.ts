@@ -13,7 +13,11 @@ export class WinnersService {
   ) {}
 
   async getAllWinners(): Promise<Winner[]> {
-    return await this.winnerRepository.find();
+    return await this.winnerRepository.find({
+      order: {
+        id: 'ASC', // or 'DESC' for descending order
+      },
+    });
   }
 
   async addNewWinners(winners: Winner[]): Promise<Winner[]> {
